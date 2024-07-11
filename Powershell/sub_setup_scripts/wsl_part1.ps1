@@ -6,11 +6,16 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 dism.exe /online /enable-feature /featurename:Microsoft-Hyper-V-All /all /norestart
 
 # Schedule the next script to run after restart
-$scriptPath = "./wsl_part2.ps1"
+$scriptPath = (Get-Location).Path + "\wsl_part2.ps1"
 $taskName = "FinishWSLSetup"
 
-# Create a scheduled task
-$scheduleTaskCommand = schtasks /create /tn $taskName /tr "powershell -ExecutionPolicy Bypass -File $scriptPath" /sc onstart /ru System
+# Create a scheduled task to run PowerShell visibly
+$scheduleTaskCommand = schtasks /create /tn $taskName /tr "powershell.exe -ExecutionPolicy Bypass -File `"$scriptPath`"" /sc onstart /ru System
+
+# Execute the task creation command
+Invoke-Expression $scheduleTaskCommand
+
+# Check if the task scheduling succeeded
 if ($LASTEXITCODE -eq 0) {
     Write-Output "Scheduled task created successfully. Restarting the computer..."
     Start-Sleep -Seconds 5
