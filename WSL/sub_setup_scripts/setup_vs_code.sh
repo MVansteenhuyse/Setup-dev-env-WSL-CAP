@@ -22,16 +22,34 @@ check_command() {
 check_command wget
 check_command apt-transport-https
 
-# Check if VS Code is installed, if not, install it
-if ! command -v code &> /dev/null; then
-    echo "VS Code not found. Installing the latest version..."
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-    sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-    sudo apt-get update
-    sudo apt-get install -y code
-    rm -f packages.microsoft.gpg
-fi
+# Function to install VS Code
+install_vscode() {
+    if ! command -v code &> /dev/null; then
+        echo "VS Code not found. Installing the latest version..."
+        wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+        sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+        sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+        sudo apt-get update
+        sudo apt-get install -y code
+        rm -f packages.microsoft.gpg
+    fi
+}
+
+# Function to install openvscodeserver
+install_openvscodeserver() {
+    if ! command -v openvscodeserver &> /dev/null; then
+        echo "openvscodeserver not found. Installing the latest version..."
+        wget -qO- https://openvscode-server.web.app/openvscode-server-linux-x64.tar.gz | tar -xz -C /tmp/
+        sudo mv /tmp/openvscode-server /usr/local/bin/
+        sudo ln -sf /usr/local/bin/openvscode-server/openvscodeserver /usr/local/bin/openvscodeserver
+    fi
+}
+
+# Install VS Code
+install_vscode
+
+# Install openvscodeserver
+install_openvscodeserver
 
 # List of VS Code extensions to install
 EXTENSIONS=(
@@ -85,4 +103,4 @@ for extension in "${EXTENSIONS[@]}"; do
     fi
 done
 
-echo "VS Code setup complete!"
+echo "VS Code and openvscodeserver setup complete!"
