@@ -14,7 +14,7 @@ function Install-VSCode {
     $vscodeInstallerUrl = "https://update.code.visualstudio.com/latest/win32-x64-user/stable"
     $vscodeInstallerPath = "$env:TEMP\vscode-installer.exe"
     Invoke-WebRequest -Uri $vscodeInstallerUrl -OutFile $vscodeInstallerPath
-    Start-Process -FilePath $vscodeInstallerPath -ArgumentList "/VERYSILENT /NORESTART" -Wait
+    Start-Process -FilePath $vscodeInstallerPath -ArgumentList "/VERYSILENT /NORESTART /MERGETASKS=!runcode" -Wait
     Remove-Item -Path $vscodeInstallerPath
     Write-Output "VSCode installation completed."
 }
