@@ -39,8 +39,8 @@ install_vscode() {
 install_openvscodeserver() {
     if ! command -v openvscodeserver &> /dev/null; then
         echo "openvscodeserver not found. Installing the latest version..."
-        wget -qO- https://openvscode-server.web.app/openvscode-server-linux-x64.tar.gz | tar -xz -C /tmp/
-        sudo mv /tmp/openvscode-server /usr/local/bin/
+        wget -qO- https://github.com/gitpod-io/openvscode-server/releases/download/openvscode-server-v1.91.0/openvscode-server-v1.91.0-linux-x64.tar.gz | tar -xz -C /tmp/
+        sudo mv /tmp/openvscode-server-v1.91.0-linux-x64 /usr/local/bin/
         sudo ln -sf /usr/local/bin/openvscode-server/openvscodeserver /usr/local/bin/openvscodeserver
     fi
 }
