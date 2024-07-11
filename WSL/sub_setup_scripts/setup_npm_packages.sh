@@ -44,6 +44,7 @@ install_npm_package "hana-cli"
 install_npm_package "expressui5"
 install_npm_package "@ui5/linter"
 install_npm_package "mbt"
+install_npm_package "typescript"
 
 # Verify installations
 echo "Verifying installations..."
@@ -52,3 +53,4 @@ cds --version
 hana-cli version
 yo --version
 mbt --version
+tsc -version
