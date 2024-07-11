@@ -1,6 +1,7 @@
 # Load config
-. ..\config.ps1
+$config = (Get-Location).Path + "\config.ps1"
 
+. $config
 # Remove the scheduled task to avoid running this script again on the next startup
 $taskName = "FinishWSLSetup"
 schtasks /delete /tn $taskName /f
@@ -12,4 +13,5 @@ wsl --set-default-version 2
 wsl --install -d $linuxDistro
 
 # Update system and setup user
-.\setup_wsl_ubuntu.ps1
+$setup_wsl = (Get-Location).Path + "\setup_wsl_ubuntu.ps1"
+. $setup_wsl

@@ -6,7 +6,7 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 dism.exe /online /enable-feature /featurename:Microsoft-Hyper-V-All /all /norestart
 
 # Schedule the next script to run after restart
-$scriptPath = (Get-Location).Path + "\wsl_part2.ps1"
+$scriptPath = (Get-Location).Path + "sub_setup_scripts\wsl_part2.ps1"
 $taskName = "FinishWSLSetup"
 
 # Create a scheduled task to run PowerShell visibly
