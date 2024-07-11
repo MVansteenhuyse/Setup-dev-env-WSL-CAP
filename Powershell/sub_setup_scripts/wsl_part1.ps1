@@ -10,7 +10,13 @@ $scriptPath = "./wsl_part2.ps1"
 $taskName = "FinishWSLSetup"
 
 # Create a scheduled task
-schtasks /create /tn $taskName /tr "powershell -ExecutionPolicy Bypass -File $scriptPath" /sc onstart /ru System
+$scheduleTaskCommand = schtasks /create /tn $taskName /tr "powershell -ExecutionPolicy Bypass -File $scriptPath" /sc onstart /ru System
+if ($LASTEXITCODE -eq 0) {
+    Write-Output "Scheduled task created successfully. Restarting the computer..."
+    Start-Sleep -Seconds 5
 
-# Restart the computer to apply changes
-Restart-Computer
+    # Restart the computer to apply changes
+    Restart-Computer
+} else {
+    Write-Error "Failed to create scheduled task. The computer will not restart."
+}
