@@ -6,3 +6,6 @@ $password = "change-this-password"
 
 # Node.js version
 $nodeVersion = "v20.15.0"
+
+# Linux distro
+$linuxDistro = "Ubuntu-24.04"
