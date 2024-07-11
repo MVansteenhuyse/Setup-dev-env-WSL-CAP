@@ -2,10 +2,8 @@
 function Check-VSCode {
     $vscodePath = "C:\Program Files\Microsoft VS Code\Code.exe"
     if (Test-Path $vscodePath) {
-        Write-Output "VSCode is already installed."
         return $true
     } else {
-        Write-Output "VSCode is not installed."
         return $false
     }
 }
