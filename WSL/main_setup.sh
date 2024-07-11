@@ -95,10 +95,6 @@ parse_arguments() {
             -all)
                 RUN_ALL=true
                 NODE_VERSION="$2"
-                GIT_USERNAME="$3"
-                GIT_EMAIL="$4"
-                shift
-                shift
                 shift
                 shift
                 ;;
@@ -117,13 +113,13 @@ run_selected_scripts() {
     if [ "$RUN_ALL" = true ]; then
         any_flag_set=true
         run_script "setup_node_without_nvm.sh" "$NODE_VERSION"
-        run_script "setup_git.sh" "" "$GIT_USERNAME" "$GIT_EMAIL"
         run_script "setup_npm_packages.sh"
         run_script "setup_cloudfoundry.sh"
         run_script "setup_btp.sh"
         run_script "setup_vs_code.sh"
         run_script "setup_kubectl.sh"
         run_script "setup_helm.sh"
+        run_script "setup_docker_and_compose.sh"
     else
         [ "$RUN_NODE" = true ] && { any_flag_set=true; run_script "setup_node_without_nvm.sh" "$NODE_VERSION"; }
         [ "$RUN_GIT" = true ] && { any_flag_set=true; run_script "setup_git.sh" "" "$GIT_USERNAME" "$GIT_EMAIL"; }
