@@ -19,6 +19,12 @@ function Install-VSCode {
     Write-Output "VSCode installation completed."
 }
 
+# Function to refresh environment variables
+function Refresh-Env {
+    $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    Write-Output "Environment variables refreshed."
+}
+
 # Function to install VSCode extensions
 function Install-VSCodeExtensions {
     $extensions = @(
@@ -61,6 +67,7 @@ function Install-VSCodeExtensions {
 # Main script execution
 if (-not (Check-VSCode)) {
     Install-VSCode
+    Refresh-Env
 }
 
 Install-VSCodeExtensions
