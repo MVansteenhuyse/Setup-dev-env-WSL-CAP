@@ -1,6 +1,6 @@
 # Development Environment Setup Scripts
 
-This repository contains a collection of PowerShell and bash scripts to automate the setup of a development environment on Windows and Linux (using WSL). These scripts install and configure various tools and applications commonly used in development.
+These scripts automate the setup of development tools required and used at Expertum by CAP (Cloud Application Programming) developers. This collection includes PowerShell and bash scripts designed to configure and install essential tools and applications. While this repository currently focuses on CAP development, a set of scripts for ABAP developers will be added in the future.
 
 ## Table of Contents
 
