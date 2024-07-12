@@ -1,10 +1,10 @@
 # Paths to witness files
-$witnessDir = "C:\Witness"
-$witnessFiles = @(
-    "$witnessDir\setup_wsl_ubuntu.txt",
-    "$witnessDir\wsl_part1.txt",
-    "$witnessDir\wsl_part2.txt",
-    "$witnessDir\install_vscode_and_extensions.txt"
+$witnessDir = "C:\\Witness"
+$witnessConditions = @(
+    @{ Path = "$witnessDir\\install_vscode_and_extensions.txt"; Condition = {-Not (Test-Path "$witnessDir\\install_vscode_and_extensions.txt")}; Script = ".\\install_vscode_and_extensions.ps1" },
+    @{ Path = "$witnessDir\\wsl_part1.txt"; Condition = { (Test-Path "$witnessDir\\install_vscode_and_extensions.txt") -and (-Not (Test-Path "$witnessDir\\wsl_part1.txt")) }; Script = ".\\wsl_part1.ps1" },
+    @{ Path = "$witnessDir\\wsl_part2.txt"; Condition = { (Test-Path "$witnessDir\\wsl_part1.txt") -and (-Not (Test-Path "$witnessDir\\wsl_part2.txt")) }; Script = ".\\wsl_part2.ps1" },
+    @{ Path = "$witnessDir\\setup_wsl_ubuntu.txt"; Condition = { (Test-Path "$witnessDir\\wsl_part1.txt") -and (Test-Path "$witnessDir\\wsl_part2.txt") -and (-Not (Test-Path "$witnessDir\\setup_wsl_ubuntu.txt")) }; Script = ".\\setup_wsl_ubuntu.ps1" }
 )
 
 # Create witness directory if it doesn't exist
@@ -12,19 +12,9 @@ if (-Not (Test-Path $witnessDir)) {
     New-Item -ItemType Directory -Path $witnessDir
 }
 
-# Check and run each script based on the presence of its witness file
-if (-Not (Test-Path $witnessFiles[0])) {
-    .\setup_wsl_ubuntu.ps1
-}
-
-if (-Not (Test-Path $witnessFiles[1])) {
-    .\wsl_part1.ps1
-}
-
-if (-Not (Test-Path $witnessFiles[2])) {
-    .\wsl_part2.ps1
-}
-
-if (-Not (Test-Path $witnessFiles[3])) {
-    .\install_vscode_and_extensions.ps1
+# Iterate through the conditions and execute the corresponding scripts
+foreach ($condition in $witnessConditions) {
+    if (& $condition.Condition) {
+        & $condition.Script
+    }
 }
