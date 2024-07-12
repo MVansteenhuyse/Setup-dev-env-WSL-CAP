@@ -1,3 +1,12 @@
+# Path to witness file
+$witnessFile = "C:\Witness\setup_wsl_ubuntu.txt"
+
+# Check if the script has already run
+if (Test-Path $witnessFile) {
+    Write-Output "setup_wsl_ubuntu.ps1 has already been executed."
+    exit
+}
+
 # Load configuration
 . ..\config.ps1
 
@@ -35,3 +44,5 @@ Write-Output "Switching to the new user and running the main setup script..."
 wsl sudo -u $userName bash -c "/home/$userName/WSL/main_setup.sh -all $nodeVersion"
 
 Write-Output "Setup complete!"
+
+New-Item -ItemType File -Path $witnessFile

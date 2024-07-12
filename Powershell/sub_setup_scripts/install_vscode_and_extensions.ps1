@@ -1,3 +1,12 @@
+# Path to witness file
+$witnessFile = "C:\\Witness\\install_vscode_and_extensions.txt"
+
+# Check if the script has already run
+if (Test-Path $witnessFile) {
+    Write-Output "install_vscode_and_extensions.ps1 has already been executed."
+    exit
+}
+
 # Function to check if VSCode is installed
 function Check-VSCode {
     $vscodePath = "C:\Program Files\Microsoft VS Code\Code.exe"
@@ -71,3 +80,5 @@ if (-not (Check-VSCode)) {
 }
 
 Install-VSCodeExtensions
+
+New-Item -ItemType File -Path $witnessFile
