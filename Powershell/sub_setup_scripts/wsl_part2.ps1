@@ -1,10 +1,16 @@
+# Path to witness file
+$witnessFile = "C:\Witness\wsl_part2.txt"
+
+# Check if the script has already run
+if (Test-Path $witnessFile) {
+    Write-Output "wsl_part2.ps1 has already been executed."
+    exit
+}
+
 # Load config
-$config = (Get-Location).Path + "\config.ps1"
+$config = ".\config.ps1"
 
 . $config
-# Remove the scheduled task to avoid running this script again on the next startup
-$taskName = "FinishWSLSetup"
-schtasks /delete /tn $taskName /f
 
 # Set WSL 2 as the default version
 wsl --set-default-version 2
@@ -13,5 +19,9 @@ wsl --set-default-version 2
 wsl --install -d $linuxDistro
 
 # Update system and setup user
-$setup_wsl = (Get-Location).Path + "\setup_wsl_ubuntu.ps1"
+$setup_wsl = ".\setup_wsl_ubuntu.ps1"
+
 . $setup_wsl
+
+New-Item -ItemType File -Path $witnessFile
+Write-Output "WSL Part 2 setup completed."
