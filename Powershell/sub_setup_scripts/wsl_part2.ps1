@@ -18,10 +18,5 @@ wsl --set-default-version 2
 # Install Ubuntu
 wsl --install -d $linuxDistro
 
-# Update system and setup user
-$setup_wsl = ".\setup_wsl_ubuntu.ps1"
-
-. $setup_wsl
-
 New-Item -ItemType File -Path $witnessFile
 Write-Output "WSL Part 2 setup completed."

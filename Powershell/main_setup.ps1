@@ -15,7 +15,7 @@ if (-Not (Test-Path $witnessDir)) {
 # Iterate through the conditions and execute the corresponding scripts
 foreach ($condition in $witnessConditions) {
     if (& $condition.Condition) {
-        Write-Output $condition.Name + ": this is step[" + $condition.ScriptStep +"]"
+        Write-Output "$($condition.Name): this is step[$($condition.ScriptStep)]"
         & $condition.Script
     }
 }
