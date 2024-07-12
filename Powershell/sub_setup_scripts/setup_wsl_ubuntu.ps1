@@ -8,7 +8,11 @@ if (Test-Path $witnessFile) {
 }
 
 # Load configuration
-. ..\config.ps1
+Write-Output "Loading configuration..."
+$config = ".\config.ps1"
+
+. $config
+
 
 # Install necessary packages
 Write-Output "Installing necessary packages..."
