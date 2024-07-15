@@ -56,5 +56,19 @@ else
     fi
 fi
 
-echo "CloudFoundry CLI and CF MTA plugin setup complete!"
+# Install CF service push plugin if not already installed
+if cf plugins | grep -q "Create-Service-Push"; then
+    echo "CF create-service-push plugin is already installed."
+else
+    echo "Installing CF create-service-push plugin..."
+    echo "y" | cf install-plugin Create-Service-Push
+
+    # Verify installation
+    if ! cf plugins | grep -q "Create-Service-Push"; then
+        echo "CF create-service-push plugin installation failed"
+        exit 1
+    fi
+fi
+
+echo "CloudFoundry CLI and CF plugins setup complete!"
 
