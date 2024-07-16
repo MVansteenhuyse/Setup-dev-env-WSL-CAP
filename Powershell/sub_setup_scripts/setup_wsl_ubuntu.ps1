@@ -43,6 +43,20 @@ Write-Output "Copying main_setup.sh to the new user's home directory..."
 wsl sudo cp -r ../../WSL /home/$userName/
 wsl sudo chmod +x /home/$userName/WSL/main_setup.sh
 
+# Find the path to 1password CLI
+$pathTo1PassWindows = where.exe op.exe
+
+# Convert the Windows path to a WSL-compatible path
+$pathTo1PassWSL = $pathTo1PassWindows -replace '\\', '/' -replace 'C:', '/mnt/c'
+
+# Construct the alias command
+$aliasCommand = "alias op=\"$pathTo1PassWSL\""
+
+# Run the command in WSL to add the alias to ~/.bashrc
+wsl bash -c "echo '$aliasCommand' >> ~/.bashrc"
+
+Write-Output "Alias for 1password CLI added to ~/.bashrc in WSL"
+
 # Switch to the new user and run the main setup script with parameters
 Write-Output "Switching to the new user and running the main setup script..."
 wsl sudo -u $userName bash -c "/home/$userName/WSL/main_setup.sh -all $nodeVersion"
