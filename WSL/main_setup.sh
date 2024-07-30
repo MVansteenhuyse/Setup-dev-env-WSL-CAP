@@ -92,6 +92,10 @@ parse_arguments() {
                 RUN_DOCKER=true
                 shift
                 ;;
+            -terraform)
+                RUN_TERRAFORM=true
+                shift
+                ;;
             -all)
                 RUN_ALL=true
                 NODE_VERSION="$2"
@@ -120,6 +124,7 @@ run_selected_scripts() {
         run_script "setup_kubectl.sh"
         run_script "setup_helm.sh"
         run_script "setup_docker_and_compose.sh"
+        run_script "setup_terraform.sh"
     else
         [ "$RUN_NODE" = true ] && { any_flag_set=true; run_script "setup_node_without_nvm.sh" "$NODE_VERSION"; }
         [ "$RUN_GIT" = true ] && { any_flag_set=true; run_script "setup_git.sh" "" "$GIT_USERNAME" "$GIT_EMAIL"; }
@@ -130,6 +135,7 @@ run_selected_scripts() {
         [ "$RUN_KUBECTL" = true ] && { any_flag_set=true; run_script "setup_kubectl.sh"; }
         [ "$RUN_HELM" = true ] && { any_flag_set=true; run_script "setup_helm.sh"; }
         [ "$RUN_DOCKER" = true ] && { any_flag_set=true; run_script "setup_docker_and_compose.sh"; }
+        [ "$RUN_TERRAFORM" = true ] && { any_flag_set=true; run_script "setup_terraform.sh"; }
     fi
 
     # If no flags were set and RUN_ALL is not true, prompt the user to select scripts
@@ -189,9 +195,10 @@ RUN_VSCODE=false
 RUN_KUBECTL=false
 RUN_HELM=false
 RUN_DOCKER=false
+RUN_TERRAFORM=false
 
 # List of setup scripts and their corresponding flags
-SCRIPTS=("setup_git.sh" "setup_cloudfoundry.sh" "setup_btp.sh" "setup_node_without_nvm.sh" "setup_npm_packages.sh" "setup_vs_code.sh" "setup_kubectl.sh", "setup_helm.sh", "setup_docker_and_compose.sh")
+SCRIPTS=("setup_git.sh" "setup_cloudfoundry.sh" "setup_btp.sh" "setup_node_without_nvm.sh" "setup_npm_packages.sh" "setup_vs_code.sh" "setup_kubectl.sh", "setup_helm.sh", "setup_docker_and_compose.sh" "setup_terraform.sh")
 
 # Run the main function
 main "$@"
